@@ -1,0 +1,70 @@
+CAPTURA DAS IMAGENS
+
+Definação 4096x2160 
+
+>> Padrões de entrada: 
+- Câmera posicionada na marcação 
+- Documento bem posicionado na marcação (card)
+
+>> CNH com capinha:
+- Em ambiente *claro*, fica melhor com a luz da câmera *desligada*
+
+>> CNH sem capinha:
+- Em ambiente *claro*, fica ótima tanto com a luz da câmera *ligada* quanto *desligada*
+  (para segmentação ainda será observado)
+
+Obs.: Com ou sem capinha ficam boas em ambiente *escuro* com a luz da câmera *ligada*
+
+ALINHAMENTO
+
+- Não funcionou nem com SIFT nem com ORB 
+- Não funcionou com nenhuma referência
+
+>> Possíveis problemas:
+
+- Esses algoritmos detectam descritores e keypoints em comum entra a imagem a ser alinhada e
+a referência, como muitas coisas mudam entre as imagens (como nome, foto ...) isso pode interferir.
+
+SEGMENTAÇÃO
+
+>> CNH com capinha: 
+- Melhor filtro, vizualmente, é o 1: Set to zero + Binario
+
+>> Sem capinha:
+- Melhor filtro, vizualmente, é o 1
+
+OCR (IMAGE_TO_DATA)
+
+- O algoritmos delimitou as bounding boxes melhor nas imagens sem capinha
+- Funcionou melhor nos filtros 2 e 3, encontrando mais boxes no filtro 3
+- Inviável, não tem como controlar o que será lido, os dados ficam muito "soltos"
+e a imagem teria que ser basicamente perfeita para ler todos os dados.
+
+OCR (IMAGE_TO_STRING)
+
+- Como as imagens não estão alinhadas, dificulta pegar a ROI e assim algumas ficam
+com mais informações do que deveriam
+- Nome: Foi lido melhor pelos filtros 1 e 3
+- CPF: todas as segmentações obtiveram bons resultados nas imagens SEM capinha. Nas 
+COM capinha os filtros 2 e 3 funcionaram ocasinalmente
+- Data de nascimento: filtro 1 funcionou melhor para as COM capinha. Todos os filtros
+obtiveram bons resultados, mas o 1 teve mais acertos nas SEM capinha.
+- Número de registro: para as COM capinha, foram todas péssimos mas o 1 e 3 funcionaram
+em um caso cada. Nas SEM capinha, 1 e 2 foram melhores, com 1 se destacando.
+- Validade: COM capinha funcionou apenas com o filtro 1 e em um só caso. Sem capinha
+a segmentação 1 foi a melhor, mas as outras também obtiveram bons resultados.
+- Primeira habilitação: COM capinha ficou melhor com segmentação 1. SEM capinha as segmentações
+1 e 2 foram igualmente muito boas.
+
+RESUMO:
+
+>> As CNHs SEM capinhas tem uma ótima qualidade, são facilmente lidas
+>> CNHs COM capinhas são mais difíceis de serem lidas, mas não impossível, se der
+pra melhorar mais ainda a qualidade acredito que possa ser lido com mais precisão.
+>> O alinhamento *não deu certo* nem com SIFT nem com ORB.
+>> As segmentação são muito boas, e a 1 foi a que obteve melhores resultados considerando
+todos os testes.
+>> Sobre o ocr do pytesseract: image_to_string é melhor que image_to_data
+
+
+
